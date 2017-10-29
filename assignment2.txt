@@ -1,0 +1,77 @@
+from urllib import request 
+ 
+url = 'http://cse.koreatech.ac.kr'
+f = request.urlopen(url)
+source_bytes = f.read()
+source = source_bytes.decode('utf-8')
+
+loc = 0
+L = [0]
+Voca = [0]
+
+L[0] = source[loc]
+while loc < len(source) :
+    if L[0] == "<" : # "<"가 나온 뒤 부터는 ">"가 나올 때 까지 루프 반복
+        while 1 :
+            loc = loc + 1
+            L[0] = source[loc]
+            if L[0] == ">" :
+                if loc == (len(source) - 1) :
+                    loc = loc + 1
+                    break
+                loc = loc + 1
+                L[0] = source[loc]
+                break
+    elif L[0] == " " or L[0] == "\n" or L[0] == "\t" or L[0] == "-" or L[0] == ">" or L[0] == "/": # 공백이 나온 경우 EX. 줄바꿈
+        if loc == (len(source) - 1) :
+                    break
+        loc = loc + 1
+        L[0] = source[loc]
+    else : # 그 외의 경우 (단어)
+        count = 0
+        while 1 :
+            if source[loc + count] == " " or source[loc + count] == "\n":
+                Voca.append(source[loc : loc + count])
+                L[0] = source[loc + count]
+                loc = count + loc + 1
+                L[0] = source[loc]
+                break
+            elif source[loc + count] == "<" :
+                Voca.append(source[loc : loc + count])
+                loc = count + loc
+                L[0] = source[loc]
+                break
+            count = count + 1
+    if loc == (len(source) - 1) :
+        break
+
+Voca[0:1] = [] #첫번째에 저장되어 있는 "0" 원소 삭제
+print(len(Voca))
+print(Voca)
+        count = 0
+        while source[loc+count] != "-" or source[loc+count] != ">" :
+            print (loc+count)
+            print (source[loc+count])
+            if source[loc + count] == " " or source[loc + count] == "\n":
+                Voca.append(source[loc : loc + count])
+                L[0] = source[loc + count]
+                loc = count + loc + 1
+                L[0] = source[loc]
+                num = num + 1
+                break
+            elif source[loc + count] == "<" :
+                Voca.append(source[loc : loc + count])
+                loc = count + loc
+                L[0] = source[loc]
+                num = num + 1
+                break
+            count = count + 1
+    if loc == (len(source) - 1) :
+        break
+print()
+print (num)
+print(len(Voca))
+print(Voca)
+    
+print (num)
+print(Voca)
